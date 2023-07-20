@@ -1,0 +1,29 @@
+name: Deploy React with gitHub-Actions
+
+on:
+  push:
+    branches:
+      - master
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [15.x]
+
+    steps:
+      - name: Copiar repositorio a la VM
+        uses: actions/checkout@master
+
+      - name: Instalar y Compilar
+        run: npm install && npm run build
+
+      - name: Despliegue con marketplace action
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          branch: gh-pages
+          folder: dist
+
